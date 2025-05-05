@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- ===== 项目基础配置 ===== -->
+    <groupId>your.plugin.package</groupId>
+    <artifactId>YourPlugin</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <spigot.version>1.12.2-R0.1-SNAPSHOT</spigot.version>
+        <!-- 注意：以下版本可能与 1.12.2 不兼容 -->
+        <protocolLib.version>4.4.0</protocolLib.version>
+        <placeholderAPI.version>2.9.2</placeholderAPI.version>
+    </properties>
+    <!-- ===== 核心依赖库 ===== -->
+    <dependencies>
+        <!-- Spigot API (本地已有 1.12.2 需先通过 mvn install 安装) -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- ProtocolLib 4.4.0（强制覆盖旧版本） -->
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>${protocolLib.version}</version>
+            <scope>provided</scope>
+            <!-- 排除旧版 Spigot API 引用 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.spigotmc</groupId>
+                    <artifactId>spigot-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- PlaceholderAPI 2.9.2 -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>${placeholderAPI.version}</version>
+            <scope>provided</scope>
+            <!-- 可选旧版仓库引用 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.spigotmc</groupId>
+                    <artifactId>spigot-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+    <!-- ===== 特殊仓库配置 ===== -->
+    <repositories>
+        <!-- ProtocolLib 4.x+ 仓库 -->
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/repository/public/</url>
+        </repository>
+        <!-- PlaceholderAPI 旧版仓库 -->
+        <repository>
+            <id>placeholderapi-legacy</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+    </repositories>
+    <!-- ===== 构建配置 ===== -->
+    <build>
+        <plugins>
+            <!-- JDK 11 编译插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <!-- 强制兼容旧版 Spigot -->
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                        <arg>-Xbootclasspath/p:${settings.localRepository}/org/spigotmc/spigot-api/${spigot.version}/spigot-api-${spigot.version}.jar</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <!-- 资源文件处理 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <filtering>true</filtering>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
