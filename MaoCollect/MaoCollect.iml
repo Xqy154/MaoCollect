@@ -17,7 +17,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="spigot-api-1.18.2-R0.1-SNAPSHOT-shaded" level="project" />
+    <orderEntry type="library" name="spigot-api-1.12.2-R0.1-SNAPSHOT-shaded" level="project" />
     <orderEntry type="library" name="[前置]ProtocolLib" level="project" />
     <orderEntry type="library" name="[前置]PlaceholderAPI-2.9.2" level="project" />
   </component>
